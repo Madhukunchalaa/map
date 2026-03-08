@@ -4,6 +4,7 @@ sqlalchemy
 pydantic
 python-dotenv
 pandas
+scikit-learn
 googlemaps
 motor
 pymongo
