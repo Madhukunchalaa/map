@@ -7,6 +7,7 @@ import InsightsPanel from './components/InsightsPanel';
 import AnalysisForm from './components/AnalysisForm';
 import HistoryDashboard from './components/HistoryDashboard';
 import AuthView from './views/AuthView';
+import BottomNav from './components/BottomNav';
 import { api } from './api/client';
 import { useAuth } from './context/AuthProvider';
 import { Sparkles, ChevronRight } from 'lucide-react';
@@ -189,28 +190,42 @@ function MapApp({ forcedView }) {
   );
 
   return (
-    <main className="flex-1 flex overflow-hidden">
-      <div className="flex-1 flex flex-col p-6 space-y-6 overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="flex flex-col gap-1">
-            <SearchBar cities={cities} onCitySelect={handleCitySelect} />
-            {opportunities?.is_live && (
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-brand/10 border border-brand/20 rounded-full w-fit animate-pulse">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand" />
-                <span className="text-[10px] text-brand font-bold uppercase tracking-wider">Live Market Data Active</span>
-              </div>
-            )}
-          </div>
-          <BusinessTypeFilter activeType={activeType} onTypeSelect={setActiveType} />
+  return (
+    <main className="flex-1 flex flex-col lg:flex-row overflow-hidden h-full">
+      {/* Mobile-only Header */}
+      <div className="lg:hidden p-4 border-b border-dark-border bg-dark/40 flex justify-between items-center shrink-0">
+        <div>
+           <p className="text-[10px] text-brand font-black uppercase tracking-widest">{activeType} Analysis</p>
+           <h3 className="text-sm font-bold">{selectedCity?.name || 'Locating...'}</h3>
         </div>
-        <div className="flex-1 min-h-0">
-          <MapView city={selectedCity} zones={opportunities?.zones} competitors={opportunities?.competitors_list} businessType={activeType} onZoneClick={(zone) => console.log('Zone clicked', zone)} activeView={activeView} setActiveView={setActiveView} />
+        <div className="flex gap-2">
+           <div className={`px-2 py-1 rounded-md text-[8px] font-black uppercase ${opportunities?.is_live ? 'bg-brand/10 text-brand' : 'bg-white/5 text-white/20'}`}>
+              {opportunities?.is_live ? 'Live Data' : 'Offline'}
+           </div>
         </div>
       </div>
-      <div className="w-96 shrink-0 h-full">
+
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden order-2 lg:order-1">
+        <div className="p-4 md:p-6 space-y-4 md:space-y-6 flex flex-col h-full">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+            <div className="flex flex-col gap-1 w-full md:w-auto">
+              <SearchBar cities={cities} onCitySelect={handleCitySelect} />
+            </div>
+            <div className="overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+              <BusinessTypeFilter activeType={activeType} onTypeSelect={setActiveType} />
+            </div>
+          </div>
+          <div className="flex-1 min-h-[300px] md:min-h-0 relative">
+            <MapView city={selectedCity} zones={opportunities?.zones} competitors={opportunities?.competitors_list} businessType={activeType} onZoneClick={(zone) => console.log('Zone clicked', zone)} activeView={activeView} setActiveView={setActiveView} />
+          </div>
+        </div>
+      </div>
+
+      <div className="w-full lg:w-96 shrink-0 h-[40vh] lg:h-full border-t lg:border-t-0 lg:border-l border-dark-border order-1 lg:order-2">
         <InsightsPanel city={selectedCity} businessType={activeType} stats={stats} trends={trends} opportunities={opportunities} prediction={prediction} hotspots={hotspots} activeView={activeView} setActiveView={setActiveView} analysis={opportunityAnalysis} />
       </div>
     </main>
+  );
   );
 }
 
@@ -240,33 +255,37 @@ function App() {
         view={appView}
       />
 
-      {latestReport && appView === 'dashboard' && (
-        <ReportModal report={latestReport} onClose={() => setLatestReport(null)} />
-      )}
+      <div className="flex-1 overflow-hidden pb-16 md:pb-0">
+        {(appView === 'map' || appView === 'competitors') && (
+          <MapApp forcedView={appView === 'competitors' ? 'competitors' : null} />
+        )}
 
-      {(appView === 'map' || appView === 'competitors') && (
-        <MapApp forcedView={appView === 'competitors' ? 'competitors' : null} />
-      )}
-
-      {appView === 'form' && (
-        <div className="flex-1 overflow-y-auto p-8">
-          <div className="max-w-lg mx-auto">
-            <div className="mb-6">
-              <h2 className="text-2xl font-black">New Business Analysis</h2>
-              <p className="text-white/40 text-sm mt-1">Enter your business details to generate an AI-powered opportunity report.</p>
+        {appView === 'form' && (
+          <div className="flex-1 h-full overflow-y-auto p-4 md:p-8">
+            <div className="max-w-lg mx-auto">
+              <div className="mb-6">
+                <h2 className="text-2xl font-black">New Business Analysis</h2>
+                <p className="text-white/40 text-sm mt-1">Enter your business details to generate an AI-powered opportunity report.</p>
+              </div>
+              <AnalysisForm onReportGenerated={handleReportGenerated} />
             </div>
-            <AnalysisForm onReportGenerated={handleReportGenerated} />
           </div>
-        </div>
-      )}
+        )}
 
-      {appView === 'dashboard' && (
-        <div className="flex-1 overflow-y-auto p-8">
-          <div className="max-w-2xl mx-auto">
-            <HistoryDashboard onNewAnalysis={() => setAppView('form')} />
+        {appView === 'dashboard' && (
+          <div className="flex-1 h-full overflow-y-auto p-4 md:p-8">
+            <div className="max-w-2xl mx-auto">
+              <HistoryDashboard onNewAnalysis={() => setAppView('form')} />
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
+      <BottomNav
+        onDashboard={() => setAppView('dashboard')}
+        onNewAnalysis={(v) => setAppView(v)}
+        view={appView}
+      />
     </div>
   );
 }

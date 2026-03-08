@@ -7,15 +7,15 @@ export default function Navbar({ onDashboard, onNewAnalysis, view }) {
   return (
     <nav className="h-16 border-b border-dark-border bg-dark/80 backdrop-blur-md flex items-center justify-between px-6 sticky top-0 z-50">
       <div className="flex items-center gap-2">
-        <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center shadow-lg shadow-brand/20">
-          <TrendingUp className="text-dark w-6 h-6" />
+        <div className="w-8 h-8 md:w-10 md:h-10 bg-brand rounded-lg md:rounded-xl flex items-center justify-center shadow-lg shadow-brand/20">
+          <TrendingUp className="text-dark w-5 h-5 md:w-6 md:h-6" />
         </div>
         <div>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
+          <h1 className="text-lg md:text-xl font-bold bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent leading-none">
             Opportunity Map
           </h1>
-          <p className="text-[10px] text-brand uppercase tracking-widest font-semibold">
-            Entrepreneur Insight Hub
+          <p className="text-[8px] md:text-[10px] text-brand uppercase tracking-[0.2em] font-semibold mt-0.5">
+            Insight Hub
           </p>
         </div>
       </div>
