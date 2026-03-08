@@ -1,6 +1,7 @@
 import os
 from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
+import certifi
 
 # Explicitly load from backend root
 env_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.env')
@@ -19,7 +20,7 @@ class MongoDB:
             print("ERROR: MONGODB_URL not set in .env!")
             return
         try:
-            self.client = AsyncIOMotorClient(MONGODB_URL)
+            self.client = AsyncIOMotorClient(MONGODB_URL, tlsCAFile=certifi.where())
             self.db = self.client[DATABASE_NAME]
             # Simple ping to verify connection
             await self.client.admin.command('ping')
