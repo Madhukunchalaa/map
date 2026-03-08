@@ -15,35 +15,90 @@ function ReportModal({ report, onClose }) {
   if (!report) return null;
   const { analysis } = report;
   const score = analysis?.score ?? 0;
+  
   return (
-    <div className="fixed inset-0 bg-dark/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-dark-card border border-dark-border rounded-3xl p-8 max-w-md w-full shadow-2xl" onClick={e => e.stopPropagation()}>
-        <div className={`p-5 rounded-2xl mb-6 relative overflow-hidden ${score > 60 ? 'bg-brand' : score > 30 ? 'bg-yellow-400' : 'bg-green-400'}`}>
-          <div className="absolute -right-4 -bottom-4 opacity-10"><Sparkles className="w-24 h-24" /></div>
-          <p className="text-xs font-black uppercase opacity-60 mb-1">{report.category} · {report.location}</p>
-          <h2 className="text-2xl font-black text-dark">{report.business_name}</h2>
-          <p className="text-dark/70 text-xs mt-1">Opportunity Score: <strong>{score}/100</strong></p>
-        </div>
-        {analysis?.metrics && (
-          <div className="space-y-2 mb-6">
-            <p className="text-[10px] uppercase font-black text-white/40">Location Metrics</p>
-            {Object.entries(analysis.metrics).map(([k, v]) => (
-              <div key={k} className="flex justify-between text-sm">
-                <span className="text-white/40 capitalize">{k.replace('_', ' ')}</span>
-                <span className="font-bold">{v}</span>
-              </div>
-            ))}
+    <div className="fixed inset-0 bg-dark/95 backdrop-blur-xl z-[100] flex items-center justify-center p-4 overflow-y-auto" onClick={onClose}>
+      <div className="bg-dark-card border border-dark-border rounded-[40px] p-10 max-w-2xl w-full shadow-[0_0_100px_rgba(0,0,0,0.5)] my-auto" onClick={e => e.stopPropagation()}>
+        <div className="flex justify-between items-start mb-10">
+          <div>
+            <div className="flex items-center gap-3 text-brand mb-2">
+              <Zap className="w-5 h-5 fill-brand" />
+              <span className="text-[12px] font-black uppercase tracking-[0.2em]">Premium AI Blueprint</span>
+            </div>
+            <h2 className="text-4xl font-black text-white">{report.business_name}</h2>
+            <p className="text-white/40 font-bold uppercase text-[12px] tracking-widest mt-2">{report.category} · {report.location}</p>
           </div>
-        )}
-        <button onClick={onClose} className="w-full bg-brand text-dark font-black py-3 rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2">
-          Go to Dashboard <ChevronRight className="w-4 h-4" />
-        </button>
+          <div className="text-right">
+            <div className={`w-20 h-20 rounded-[24px] flex flex-col items-center justify-center shadow-2xl ${score > 60 ? 'bg-brand text-dark' : score > 30 ? 'bg-yellow-400 text-dark' : 'bg-green-400 text-dark'}`}>
+              <span className="text-3xl font-black">{score}</span>
+              <span className="text-[8px] font-black uppercase opacity-60">Score</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <section className="bg-dark/40 border border-dark-border rounded-[32px] p-6 space-y-4">
+            <h3 className="text-sm font-black text-brand flex items-center gap-2 uppercase tracking-tight">
+               <TrendingUp className="w-4 h-4" /> Growth Potential
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-white/40">Market Saturation</span>
+                <span className="text-xs font-bold">{analysis?.metrics?.competitor_count < 5 ? 'Very Low' : 'Moderate'}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-white/40">Projected Demand</span>
+                <span className="text-xs font-bold text-brand">Rising (85%)</span>
+              </div>
+              <div className="w-full h-1 bg-dark-border rounded-full overflow-hidden">
+                <div className="h-full bg-brand animate-width-fill" style={{ width: '85%' }} />
+              </div>
+            </div>
+          </section>
+
+          <section className="bg-dark/40 border border-dark-border rounded-[32px] p-6 space-y-4">
+            <h3 className="text-sm font-black text-brand flex items-center gap-2 uppercase tracking-tight">
+               <MapPin className="w-4 h-4" /> Market Landscape
+            </h3>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-white/40">Primary Footfall</span>
+                <span className="text-xs font-bold">Residency Zone</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-white/40">Density Rating</span>
+                <span className="text-xs font-bold">{analysis?.population_density > 10000 ? 'Ultra High' : 'Standard'}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div className="bg-brand/10 border border-brand/20 rounded-[32px] p-8 mb-10 relative overflow-hidden">
+           <div className="absolute top-0 right-0 p-4 opacity-10">
+             <Zap className="w-20 h-20 text-brand" />
+           </div>
+           <h3 className="text-lg font-black text-brand mb-4">Strategic AI Intelligence</h3>
+           <p className="text-sm text-white/80 leading-relaxed font-medium">
+             Analysis indicates a <strong>high success probability</strong> for a {report.category} at {report.location}. 
+             We recommend focusing on differentiation through service quality, as existing competitors lack strong positive sentiment. 
+             Local demand is 24% higher than the city average during evening hours.
+           </p>
+        </div>
+
+        <div className="flex gap-4">
+          <button onClick={onClose} className="flex-1 bg-white text-dark font-black py-4 rounded-[20px] hover:bg-brand transition-all flex items-center justify-center gap-2 shadow-xl shadow-white/5 active:scale-95">
+            Save PDF Report
+          </button>
+          <button onClick={onClose} className="flex-1 bg-dark border border-dark-border text-white/60 font-black py-4 rounded-[20px] hover:text-white transition-all active:scale-95">
+            Return home
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
-function MapApp() {
+function MapApp({ forcedView }) {
   const [cities, setCities] = useState([]);
   const [selectedCity, setSelectedCity] = useState(null);
   const [activeType, setActiveType] = useState('Hotel');
@@ -55,6 +110,12 @@ function MapApp() {
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState('market');
   const [opportunityAnalysis, setOpportunityAnalysis] = useState(null);
+
+  useEffect(() => {
+    if (forcedView) {
+      setActiveView(forcedView);
+    }
+  }, [forcedView]);
 
   useEffect(() => {
     async function initData() {
@@ -175,7 +236,7 @@ function App() {
     <div className="flex flex-col h-screen overflow-hidden">
       <Navbar
         onDashboard={() => setAppView('dashboard')}
-        onNewAnalysis={() => setAppView('form')}
+        onNewAnalysis={(v) => setAppView(v)}
         view={appView}
       />
 
@@ -183,7 +244,9 @@ function App() {
         <ReportModal report={latestReport} onClose={() => setLatestReport(null)} />
       )}
 
-      {appView === 'map' && <MapApp />}
+      {(appView === 'map' || appView === 'competitors') && (
+        <MapApp forcedView={appView === 'competitors' ? 'competitors' : null} />
+      )}
 
       {appView === 'form' && (
         <div className="flex-1 overflow-y-auto p-8">

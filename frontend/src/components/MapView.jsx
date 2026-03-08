@@ -17,14 +17,32 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-function MapUpdater({ center }) {
+function SearchRipple({ center }) {
   const map = useMap();
   useEffect(() => {
     if (center) {
       map.flyTo(center, 13, { duration: 2 });
     }
   }, [center, map]);
-  return null;
+
+  if (!center) return null;
+
+  return (
+    <div className="search-ripple-container">
+      <CircleMarker
+        center={center}
+        pathOptions={{
+          fillColor: '#FF3D00',
+          color: '#FF3D00',
+          weight: 1,
+          opacity: 0.5,
+          fillOpacity: 0.2
+        }}
+        radius={200}
+        className="animate-ripple"
+      />
+    </div>
+  );
 }
 
 export default function MapView({ city, zones, competitors, businessType, onZoneClick, activeView, setActiveView }) {
@@ -42,7 +60,7 @@ export default function MapView({ city, zones, competitors, businessType, onZone
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <MapUpdater center={center} />
+        <SearchRipple center={center} />
 
         {/* Competitor Markers */}
         {competitors && competitors.map((comp, idx) => (

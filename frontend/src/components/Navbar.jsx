@@ -1,4 +1,4 @@
-import { MapPin, TrendingUp, HelpCircle, LogOut, User, LayoutDashboard, PlusCircle } from 'lucide-react';
+import { MapPin, TrendingUp, HelpCircle, LogOut, User, LayoutDashboard, PlusCircle, Home, Zap, FileText, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthProvider';
 
 export default function Navbar({ onDashboard, onNewAnalysis, view }) {
@@ -22,18 +22,30 @@ export default function Navbar({ onDashboard, onNewAnalysis, view }) {
 
       <div className="flex items-center gap-6">
         {user && (
-          <div className="hidden md:flex items-center gap-2 text-sm text-white/60">
+          <div className="hidden md:flex items-center gap-1 text-sm text-white/60">
             <button
-              onClick={onDashboard}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${view === 'dashboard' ? 'bg-brand/10 text-brand' : 'hover:text-white'}`}
+              onClick={() => onNewAnalysis && onNewAnalysis('map')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${view === 'map' ? 'bg-brand/10 text-brand' : 'hover:text-white'}`}
             >
-              <LayoutDashboard className="w-4 h-4" /> Dashboard
+              <Home className="w-4 h-4" /> Home
             </button>
             <button
-              onClick={onNewAnalysis}
+              onClick={() => onNewAnalysis && onNewAnalysis('form')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${view === 'form' ? 'bg-brand/10 text-brand' : 'hover:text-white'}`}
             >
-              <PlusCircle className="w-4 h-4" /> New Analysis
+              <Zap className="w-4 h-4" /> AI Engine
+            </button>
+            <button
+              onClick={() => onDashboard && onDashboard()}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${view === 'dashboard' ? 'bg-brand/10 text-brand' : 'hover:text-white'}`}
+            >
+              <FileText className="w-4 h-4" /> Reports
+            </button>
+            <button
+              onClick={() => onNewAnalysis && onNewAnalysis('competitors')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all ${view === 'competitors' ? 'bg-brand/10 text-brand' : 'hover:text-white'}`}
+            >
+              <Users className="w-4 h-4" /> Competitors
             </button>
           </div>
         )}
@@ -41,7 +53,7 @@ export default function Navbar({ onDashboard, onNewAnalysis, view }) {
         <div className="flex items-center gap-3">
           {user ? (
             <>
-              <div className="hidden md:flex items-center gap-2 text-xs text-white/40 bg-dark/60 border border-dark-border px-3 py-1.5 rounded-full">
+              <div className="hidden lg:flex items-center gap-2 text-xs text-white/40 bg-dark/60 border border-dark-border px-3 py-1.5 rounded-full">
                 <User className="w-3 h-3" />
                 {user.username}
               </div>
