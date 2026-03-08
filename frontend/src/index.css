@@ -4,15 +4,15 @@
   --color-dark: #0a0f1e;
   --color-dark-card: #161b2c;
   --color-dark-border: #23293b;
-  
+
   --color-brand-light: #00f2fe;
   --color-brand: #00d2ff;
   --color-brand-dark: #00c9ff;
-  
+
   --color-opportunity-high: #ef4444;
   --color-opportunity-medium: #f59e0b;
   --color-opportunity-low: #10b981;
-  
+
   --font-sans: "Inter", "system-ui", "sans-serif";
 }
 
@@ -66,4 +66,32 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #33394b;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.animate-ripple {
+  animation: ripple 2s ease-out infinite;
+}
+
+@keyframes width-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-width-fill {
+  animation: width-fill 1.5s ease-out forwards;
 }
