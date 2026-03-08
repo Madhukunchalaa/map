@@ -204,7 +204,7 @@ function MapApp({ forcedView }) {
         </div>
       </div>
 
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden order-2 lg:order-1">
+      <div className="flex-1 flex flex-col min-h-0 overflow-hidden order-1 lg:order-1">
         <div className="p-4 md:p-6 space-y-4 md:space-y-6 flex flex-col h-full">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
             <div className="flex flex-col gap-1 w-full md:w-auto">
@@ -220,7 +220,7 @@ function MapApp({ forcedView }) {
         </div>
       </div>
 
-      <div className="w-full lg:w-96 shrink-0 h-[40vh] lg:h-full border-t lg:border-t-0 lg:border-l border-dark-border order-1 lg:order-2">
+      <div className="w-full lg:w-96 shrink-0 h-[40vh] lg:h-full border-t lg:border-t-0 lg:border-l border-dark-border order-2 lg:order-2">
         <InsightsPanel city={selectedCity} businessType={activeType} stats={stats} trends={trends} opportunities={opportunities} prediction={prediction} hotspots={hotspots} activeView={activeView} setActiveView={setActiveView} analysis={opportunityAnalysis} />
       </div>
     </main>
