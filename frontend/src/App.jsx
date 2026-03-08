@@ -190,7 +190,6 @@ function MapApp({ forcedView }) {
   );
 
   return (
-  return (
     <main className="flex-1 flex flex-col lg:flex-row overflow-hidden h-full">
       {/* Mobile-only Header */}
       <div className="lg:hidden p-4 border-b border-dark-border bg-dark/40 flex justify-between items-center shrink-0">
@@ -225,7 +224,6 @@ function MapApp({ forcedView }) {
         <InsightsPanel city={selectedCity} businessType={activeType} stats={stats} trends={trends} opportunities={opportunities} prediction={prediction} hotspots={hotspots} activeView={activeView} setActiveView={setActiveView} analysis={opportunityAnalysis} />
       </div>
     </main>
-  );
   );
 }
 

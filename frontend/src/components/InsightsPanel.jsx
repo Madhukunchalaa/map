@@ -6,8 +6,11 @@ export default function InsightsPanel({ city, businessType, stats, trends, oppor
   const competitors = opportunities?.competitors_list || [];
 
   return (
-    <aside className="w-full h-full bg-dark-card border-l border-dark-border p-6 overflow-y-auto hidden lg:block scrollbar-hide">
+    <aside className="w-full h-full bg-dark-card border-l border-dark-border p-6 overflow-y-auto block scrollbar-hide">
       <div className="space-y-8">
+        {/* Mobile Grab Handle */}
+        <div className="lg:hidden w-12 h-1.5 bg-white/10 rounded-full mx-auto -mt-2 mb-6" />
+
         {/* Header */}
         <div>
           <div className="flex items-center gap-2 text-brand mb-1">
