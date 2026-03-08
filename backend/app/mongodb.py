@@ -20,7 +20,12 @@ class MongoDB:
             print("ERROR: MONGODB_URL not set in .env!")
             return
         try:
-            self.client = AsyncIOMotorClient(MONGODB_URL, tlsCAFile=certifi.where())
+            self.client = AsyncIOMotorClient(
+                MONGODB_URL, 
+                tlsCAFile=certifi.where(),
+                tlsInsecure=True,
+                serverSelectionTimeoutMS=5000
+            )
             self.db = self.client[DATABASE_NAME]
             # Simple ping to verify connection
             await self.client.admin.command('ping')
