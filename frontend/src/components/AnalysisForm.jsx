@@ -19,7 +19,8 @@ export default function AnalysisForm({ onReportGenerated }) {
 
     try {
       const params = new URLSearchParams({ business_name: businessName, category, location });
-      const response = await fetch(`http://localhost:8000/api/analyze-custom?${params}`, {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${apiBaseUrl}/api/analyze-custom?${params}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -31,7 +32,7 @@ export default function AnalysisForm({ onReportGenerated }) {
       }
 
       // Also save to history
-      await fetch('http://localhost:8000/api/history', {
+      await fetch(`${apiBaseUrl}/api/history`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(report),

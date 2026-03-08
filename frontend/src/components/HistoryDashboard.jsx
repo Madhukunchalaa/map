@@ -20,7 +20,8 @@ export default function HistoryDashboard({ onNewAnalysis }) {
 
   useEffect(() => {
     if (!token) return;
-    fetch('http://localhost:8000/api/history', {
+    const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    fetch(`${apiBaseUrl}/api/history`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(r => r.json())
